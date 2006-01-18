@@ -51,7 +51,8 @@ TARGET_LINK_LIBRARIES(check ${Libraries})
 # ADD_TEST(Testname ExecutableToRun arg1 arg2 arg3)
 
 FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
-  ADD_TEST(Opacity-${opacity} check ${opacity} ${CMAKE_SOURCE_DIR}/images/cthead1.png ${CMAKE_SOURCE_DIR}/images/label.png out-${opacity}.png)
-  ADD_TEST(CompareImage ${IMAGE_COMPARE} out-${opacity}.png ${CMAKE_SOURCE_DIR}/images/out-${opacity}.png)
+  STRING(REGEX REPLACE "\\." "_" op ${opacity})
+  ADD_TEST(Opacity-${op} check ${opacity} ${CMAKE_SOURCE_DIR}/images/cthead1.png ${CMAKE_SOURCE_DIR}/images/label.png out-${op}.png)
+  ADD_TEST(CompareImage-${op} ${IMAGE_COMPARE} out-${op}.png ${CMAKE_SOURCE_DIR}/images/out-${op}.png)
 ENDFOREACH(opacity)
 
