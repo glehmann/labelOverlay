@@ -18,21 +18,22 @@ int main(int, char * argv[])
 
   typedef itk::ImageFileReader< IType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName( argv[2] );
   ReaderType::Pointer reader2 = ReaderType::New();
-  reader2->SetFileName( argv[2] );
+  reader2->SetFileName( argv[3] );
 
   typedef itk::LabelOverlayImageFilter< IType, IType, CIType> FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
   filter->SetLabelImage( reader2->GetOutput() );
+  filter->SetOpacity( atof(argv[1]) );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   typedef itk::ImageFileWriter< CIType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( argv[3] );
+  writer->SetFileName( argv[4] );
   writer->Update();
 
   return 0;

@@ -118,7 +118,7 @@ public:
     m_Colors.push_back( rgbPixel );
 
   }
-  ~LabelOverlay() {}
+
   inline TRGBPixel operator()(  const TInputPixel & p1,
 				const TLabel & p2)
   {
@@ -129,13 +129,24 @@ public:
       rgbPixel.Set( p, p, p );
       return rgbPixel;
       }
-    return m_Colors[ p2 % m_Colors.size() ];
+     TRGBPixel rgbPixel;
+     for( int i = 0; i<3; i++)
+       {
+       rgbPixel[i] = static_cast< typename TRGBPixel::ValueType >( m_Colors[ p2 % m_Colors.size() ][i] * m_Opacity + p1 * ( 1.0 - m_Opacity ) );
+       }
+     return rgbPixel;
   }
+
   bool operator != (const LabelOverlay&) const
-  {
-    return false;
-  }
+  { return false; }
+
+  ~LabelOverlay() {}
+
+  void SetOpacity( double opacity ) { m_Opacity = opacity; }
+
   std::vector< TRGBPixel > m_Colors;
+
+  double m_Opacity;
 };
 }  // end namespace functor
 
@@ -192,13 +203,23 @@ public:
   LabelImageType * GetLabelImage()
     { return this->GetInput2(); }
 
+  itkSetMacro( Opacity, double );
+  itkGetConstReferenceMacro( Opacity, double );
+
 protected:
   LabelOverlayImageFilter();
   virtual ~LabelOverlayImageFilter() {};
 
+  /** Process to execute before entering the multithreaded section */
+  void BeforeThreadedGenerateData(void);
+
+  /** Print internal ivars */
+  void PrintSelf(std::ostream& os, Indent indent) const;
+  
 private:
   LabelOverlayImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+  double m_Opacity;
 };
 
 
