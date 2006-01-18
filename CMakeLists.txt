@@ -50,5 +50,8 @@ TARGET_LINK_LIBRARIES(check ${Libraries})
 #any tests you can comment out or delete the following line.
 # ADD_TEST(Testname ExecutableToRun arg1 arg2 arg3)
 
-ADD_TEST(Run check ${INPUT_IMAGE} out.png)
-ADD_TEST(CompareImage ${IMAGE_COMPARE} out.png ${CMAKE_SOURCE_DIR}/images/test.png)
+FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
+  ADD_TEST(Opacity-${opacity} check ${opacity} ${CMAKE_SOURCE_DIR}/images/cthead1.png ${CMAKE_SOURCE_DIR}/images/label.png out-${opacity}.png)
+  ADD_TEST(CompareImage ${IMAGE_COMPARE} out-${opacity}.png ${CMAKE_SOURCE_DIR}/images/out-${opacity}.png)
+ENDFOREACH(opacity)
+
