@@ -56,3 +56,15 @@ FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
   ADD_TEST(CompareImage-${op} ${IMAGE_COMPARE} out-${op}.png ${CMAKE_SOURCE_DIR}/images/out-${op}.png)
 ENDFOREACH(opacity)
 
+
+
+OPTION(BUILD_WRAPPERS "Wrap library" OFF)
+IF(BUILD_WRAPPERS)
+   SUBDIRS(Wrapping)
+ENDIF(BUILD_WRAPPERS)
+
+# install devel files
+FOREACH(f itkLabelOverlayImageFilter.h itkLabelOverlayImageFilter.txx)
+  INSTALL_FILES(/include/InsightToolkit/BasicFilters FILES ${labelOverlay_SOURCE_DIR}/${f})
+ENDFOREACH(f)
+
