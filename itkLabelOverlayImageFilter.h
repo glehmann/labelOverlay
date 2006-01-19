@@ -28,95 +28,36 @@ public:
     // They are a good selection of distinct colours for plotting and
     // overlays.
     
-    rgbPixel.Set(255, 0, 0);
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set(0, 205, 0);
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 0 , 0 , 255 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 0 , 255 , 255 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 255 , 0 , 255 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 255 , 127 , 0 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 0 , 100 , 0 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 138 , 43 , 226 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 139 , 35 , 35 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 0 , 0 , 128 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 139 , 139 , 0 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 255 , 62 , 150 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 139 , 76 , 57 );
-    m_Colors.push_back( rgbPixel );
-    rgbPixel.Set( 0 , 134 , 139 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 205 , 104 , 57 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 191 , 62 , 255 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 0 , 139 , 69 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 199 , 21 , 133 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 205 , 55 , 0 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 32 , 178 , 170 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 106 , 90 , 205 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 255 , 20 , 147 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 69 , 139 , 116 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 72 , 118 , 255 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 205 , 79 , 57 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 0 , 0 , 205 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 139 , 34 , 82 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 139 , 0 , 139 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 238 , 130 , 238 );
-    m_Colors.push_back( rgbPixel );
-
-    rgbPixel.Set( 139 , 0 , 0 );
-    m_Colors.push_back( rgbPixel );
-
+    addColor( 255, 0, 0 );
+    addColor( 0, 205, 0 );
+    addColor( 0, 0, 255 );
+    addColor( 0, 255, 255 );
+    addColor( 255, 0, 255 );
+    addColor( 255, 127, 0 );
+    addColor( 0, 100, 0 );
+    addColor( 138, 43, 226 );
+    addColor( 139, 35, 35 );
+    addColor( 0, 0, 128 );
+    addColor( 139, 139, 0 );
+    addColor( 255, 62, 150 );
+    addColor( 139, 76, 57 );
+    addColor( 0, 134, 139 );
+    addColor( 205, 104, 57 );
+    addColor( 191, 62, 255 );
+    addColor( 0, 139, 69 );
+    addColor( 199, 21, 133 );
+    addColor( 205, 55, 0 );
+    addColor( 32, 178, 170 );
+    addColor( 106, 90, 205 );
+    addColor( 255, 20, 147 );
+    addColor( 69, 139, 116 );
+    addColor( 72, 118, 255 );
+    addColor( 205, 79, 57 );
+    addColor( 0, 0, 205 );
+    addColor( 139, 34, 82 );
+    addColor( 139, 0, 139 );
+    addColor( 238, 130, 238 );
+    addColor( 139, 0, 0 );
   }
 
   inline TRGBPixel operator()(  const TInputPixel & p1,
@@ -136,6 +77,16 @@ public:
        }
      return rgbPixel;
   }
+
+  void addColor(unsigned char r, unsigned char g, unsigned char b)
+    {
+    TRGBPixel rgbPixel;
+    typename TRGBPixel::ValueType m = itk::NumericTraits< typename TRGBPixel::ValueType >::max();
+    rgbPixel.Set( static_cast< typename TRGBPixel::ValueType >( static_cast< double >( r ) / 255 * m ),
+                  static_cast< typename TRGBPixel::ValueType >( static_cast< double >( g ) / 255 * m ),
+                  static_cast< typename TRGBPixel::ValueType >( static_cast< double >( b ) / 255 * m ) );
+    m_Colors.push_back( rgbPixel );
+    }
 
   bool operator != (const LabelOverlay&) const
   { return false; }
