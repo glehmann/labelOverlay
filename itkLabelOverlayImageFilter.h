@@ -152,7 +152,7 @@ public:
 
   /** Get the label image */
   LabelImageType * GetLabelImage()
-    { return this->GetInput2(); }
+    { return static_cast<LabelImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1))); }
 
   itkSetMacro( Opacity, double );
   itkGetConstReferenceMacro( Opacity, double );
