@@ -103,13 +103,16 @@ public:
 
 
 /** \class LabelOverlayImageFilter
- * \brief TODO
+ * \brief Apply a colormap to a label image and put it on top of the input image
  *
+ * Apply a colormap to a label image and put it on top of the input image. The set of colors
+ * is a good selection of distinct colors. The opacity of the label image
+ * can be defined by the user.
  *
  * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
  * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *
- * \sa TODO
+ * \sa ScalarToRGBPixelFunctor
  * \ingroup Multithreaded
  *
  */
