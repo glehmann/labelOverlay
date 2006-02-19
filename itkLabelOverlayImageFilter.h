@@ -88,8 +88,8 @@ public:
     m_Colors.push_back( rgbPixel );
     }
 
-  bool operator != (const LabelOverlay&) const
-  { return false; }
+  bool operator != (const LabelOverlay &l) const
+  { return l.m_Opacity == m_Opacity; }
 
   ~LabelOverlay() {}
 
