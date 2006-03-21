@@ -1,10 +1,14 @@
 WRAP_CLASS("itk::LabelOverlayImageFilter" POINTER_WITH_SUPERCLASS)
-  FOREACH(d ${WRAP_DIMS})
-    COND_WRAP("${ITKM_IUS${d}}${ITKM_IUL${d}}${ITKM_IRGBUS${d}}" "${ITKT_IUS${d}},${ITKT_IUL${d}},${ITKT_IRGBUS${d}}" "US;RGBUS") # needed for watershed
-    COND_WRAP("${ITKM_IUS${d}}${ITKM_IUS${d}}${ITKM_IRGBUS${d}}" "${ITKT_IUS${d}},${ITKT_IUS${d}},${ITKT_IRGBUS${d}}" "US;RGBUS")
-    COND_WRAP("${ITKM_IUS${d}}${ITKM_IUC${d}}${ITKM_IRGBUS${d}}" "${ITKT_IUS${d}},${ITKT_IUC${d}},${ITKT_IRGBUS${d}}" "US;UC;RGBUS")
-    COND_WRAP("${ITKM_IUC${d}}${ITKM_IUL${d}}${ITKM_IRGBUC${d}}" "${ITKT_IUC${d}},${ITKT_IUL${d}},${ITKT_IRGBUC${d}}" "UC;RGBUC") # needed for watershed
-    COND_WRAP("${ITKM_IUC${d}}${ITKM_IUS${d}}${ITKM_IRGBUC${d}}" "${ITKT_IUC${d}},${ITKT_IUS${d}},${ITKT_IRGBUC${d}}" "UC;US;RGBUC")
-    COND_WRAP("${ITKM_IUC${d}}${ITKM_IUC${d}}${ITKM_IRGBUC${d}}" "${ITKT_IUC${d}},${ITKT_IUC${d}},${ITKT_IRGBUC${d}}" "UC;RGBUC")
-  ENDFOREACH(d)
+  UNIQUE(label_types "${WRAP_ITK_INT};UL")
+
+  FOREACH(t ${label_types})
+    IF(WRAP_rgb_unsigned_short AND WRAP_unsigned_short)
+      WRAP_IMAGE_FILTER_TYPES(US ${t} RGBUS)
+    ENDIF(WRAP_rgb_unsigned_short AND WRAP_unsigned_short)
+
+    IF(WRAP_rgb_unsigned_char AND WRAP_unsigned_char)
+      WRAP_IMAGE_FILTER_TYPES(UC ${t} RGBUC)
+    ENDIF(WRAP_rgb_unsigned_char AND WRAP_unsigned_char)
+  ENDFOREACH(t)
+
 END_WRAP_CLASS()
