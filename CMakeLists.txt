@@ -70,7 +70,9 @@ IF(BUILD_WRAPPERS)
 ENDIF(BUILD_WRAPPERS)
 
 # install devel files
+OPTION(INSTALL_DEVEL_FILES "Install C++ headers" ON)
+IF(INSTALL_DEVEL_FILES)
 FOREACH(f itkLabelOverlayImageFilter.h itkLabelOverlayImageFilter.txx)
   INSTALL_FILES(/include/InsightToolkit/BasicFilters FILES ${labelOverlay_SOURCE_DIR}/${f})
 ENDFOREACH(f)
-
+ENDIF(INSTALL_DEVEL_FILES)
