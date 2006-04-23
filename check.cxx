@@ -27,6 +27,7 @@ int main(int, char * argv[])
   filter->SetInput( reader->GetOutput() );
   filter->SetLabelImage( reader2->GetOutput() );
   filter->SetOpacity( atof(argv[1]) );
+  filter->SetUseBackground( true );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
