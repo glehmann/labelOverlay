@@ -3,7 +3,7 @@
 #include "itkCommand.h"
 #include "itkSimpleFilterWatcher.h"
 
-#include "itkLabelToRGBImageFilter.h"
+#include "itkLabelOverlayImageFilter.h"
 
 
 int main(int argn, char * argv[])
@@ -11,9 +11,7 @@ int main(int argn, char * argv[])
 
   if( argn == 1 )
     {
-    std::cerr << "Usage: check label output [useBg [bg]]" << std::endl;
-    std::cerr << " useBg is false by default" << std::endl;
-    std::cerr << " bg is 0 by default" << std::endl;
+    std::cerr << "Usage: check2 input label output [opacity [useBg [bg]]]" << std::endl;
     return 1;
     }
 
@@ -28,21 +26,26 @@ int main(int argn, char * argv[])
   typedef itk::ImageFileReader< IType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
+  ReaderType::Pointer reader2 = ReaderType::New();
+  reader2->SetFileName( argv[2] );
 
-  typedef itk::LabelToRGBImageFilter< IType, CIType> FilterType;
+  typedef itk::LabelOverlayImageFilter< IType, IType, CIType> FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
-  if( argn >= 4 )
-    { filter->SetUseBackground( atoi(argv[3]) ); }
+  filter->SetLabelImage( reader2->GetOutput() );
   if( argn >= 5 )
-    { filter->SetBackgroundValue( atoi(argv[4]) ); }
+    { filter->SetOpacity( atof(argv[4]) ); }
+  if( argn >= 6 )
+    { filter->SetUseBackground( atoi(argv[5]) ); }
+  if( argn >= 7 )
+    { filter->SetBackgroundValue( atoi(argv[6]) ); }
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   typedef itk::ImageFileWriter< CIType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetFileName( argv[3] );
   writer->Update();
 
   return 0;

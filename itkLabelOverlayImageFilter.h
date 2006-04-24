@@ -37,7 +37,7 @@ public:
   }
 
   bool operator != (const LabelOverlay &l) const
-  { return l.m_Opacity == m_Opacity; }
+  { return l.m_Opacity == m_Opacity || m_UseBackground != l.m_UseBackground || m_BackgroundValue != l.m_BackgroundValue; }
 
   ~LabelOverlay() {}
 
@@ -66,9 +66,8 @@ public:
  * can be defined by the user.
  *
  * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
- * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *
- * \sa ScalarToRGBPixelFunctor
+ * \sa ScalarToRGBPixelFunctor LabelToRGBImageFilter
  * \ingroup Multithreaded
  *
  */

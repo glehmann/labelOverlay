@@ -46,6 +46,10 @@ SET(CurrentExe "check")
 ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx)
 TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries})
 
+SET(CurrentExe "check2")
+ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx)
+TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries})
+
 ENDIF(BUILD_TESTING)
 
 #the following line is an example of how to add a test to your project.
@@ -58,9 +62,23 @@ ENDIF(BUILD_TESTING)
 
 FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
   STRING(REGEX REPLACE "\\." "_" op ${opacity})
-  ADD_TEST(Opacity-${op} check ${opacity} ${CMAKE_SOURCE_DIR}/images/cthead1.png ${CMAKE_SOURCE_DIR}/images/label.png out-${op}.png)
+  ADD_TEST(Opacity-${op} check2 ${CMAKE_SOURCE_DIR}/images/cthead1.png ${CMAKE_SOURCE_DIR}/images/cthead1MF.png out-${op}.png ${opacity})
   ADD_TEST(CompareImage-${op} ${IMAGE_COMPARE} out-${op}.png ${CMAKE_SOURCE_DIR}/images/out-${op}.png)
 ENDFOREACH(opacity)
+
+ADD_TEST(Overlay check2 ${CMAKE_SOURCE_DIR}/images/cthead1.png ${CMAKE_SOURCE_DIR}/images/cthead1MF.png Overlay.png)
+ADD_TEST(OverlayCompare ${IMAGE_COMPARE} Overlay.png ${CMAKE_SOURCE_DIR}/images/out-0_7.png)
+ADD_TEST(OverlayUseBg check2 ${CMAKE_SOURCE_DIR}/images/cthead1.png ${CMAKE_SOURCE_DIR}/images/cthead1MF.png OverlayUseBg.png 0.7 1)
+ADD_TEST(OverlayUseBgCompare ${IMAGE_COMPARE} OverlayUseBg.png ${CMAKE_SOURCE_DIR}/images/OverlayUseBg.png)
+ADD_TEST(OverlayUseBg176 check2 ${CMAKE_SOURCE_DIR}/images/cthead1.png ${CMAKE_SOURCE_DIR}/images/cthead1MF.png OverlayUseBg176.png 0.7 1 176)
+ADD_TEST(OverlayUseBg176Compare ${IMAGE_COMPARE} OverlayUseBg176.png ${CMAKE_SOURCE_DIR}/images/OverlayUseBg176.png)
+
+ADD_TEST(Color check ${CMAKE_SOURCE_DIR}/images/cthead1-markers.png Color.png)
+ADD_TEST(ColorCompare ${IMAGE_COMPARE} Color.png ${CMAKE_SOURCE_DIR}/images/Color.png)
+ADD_TEST(ColorUseBg check ${CMAKE_SOURCE_DIR}/images/cthead1-markers.png ColorUseBg.png 1)
+ADD_TEST(ColorUseBgCompare ${IMAGE_COMPARE} ColorUseBg.png ${CMAKE_SOURCE_DIR}/images/ColorUseBg.png)
+ADD_TEST(ColorUseBg176 check ${CMAKE_SOURCE_DIR}/images/cthead1-markers.png ColorUseBg176.png 1 176)
+ADD_TEST(ColorUseBg176Compare ${IMAGE_COMPARE} ColorUseBg176.png ${CMAKE_SOURCE_DIR}/images/ColorUseBg176.png)
 
 
 

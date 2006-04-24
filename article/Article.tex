@@ -81,7 +81,7 @@ The Opacity parameter must be between 0 and 1 and defaults to 1.
 
 \begin{figure}[htbp]
 \begin{center}
-\subfigure[label]{\includegraphics[scale=0.5]{label}}
+\subfigure[label]{\includegraphics[scale=0.5]{cthead1MF}}
 \subfigure[0.0]{\includegraphics[scale=0.5]{out-0_0}}
 \subfigure[0.1]{\includegraphics[scale=0.5]{out-0_1}}
 \subfigure[0.2]{\includegraphics[scale=0.5]{out-0_2}}
@@ -97,6 +97,27 @@ The Opacity parameter must be between 0 and 1 and defaults to 1.
 \end{center}
 \end{figure}
 
+\begin{figure}[htbp]
+\begin{center}
+\subfigure[input]{\includegraphics[scale=0.5]{cthead1}}
+\subfigure[labels]{\includegraphics[scale=0.5]{cthead1MF}}
+\subfigure[Opacity=0.7, UseBackground=false (default), BackgroundValue=0 (default)]{\includegraphics[scale=0.5]{out-0_7}}
+\subfigure[Opacity=0.7, UseBackground=true, BackgroundValue=0 (default)]{\includegraphics[scale=0.5]{OverlayUseBg}}
+\subfigure[Opacity=0.7, UseBackground=true, BackgroundValue=176]{\includegraphics[scale=0.5]{OverlayUseBg176}}
+\caption{Result of LabelOverlayImageFilter with different parameters.}
+\end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+\begin{center}
+\subfigure[input]{\includegraphics[scale=0.5]{cthead1-markers}}
+\subfigure[UseBackground=false (default), BackgroundValue=0 (default)]{\includegraphics[scale=0.5]{Color}}
+\subfigure[UseBackground=true, BackgroundValue=0 (default)]{\includegraphics[scale=0.5]{ColorUseBg}}
+\subfigure[UseBackground=true, BackgroundValue=176]{\includegraphics[scale=0.5]{ColorUseBg176}}
+\caption{Label image and results of LabelToRGBImageFilter with different parameters.}
+\end{center}
+\end{figure}
+
 \section{Sample code}
 
 \small \begin{verbatim}
@@ -108,8 +129,15 @@ The Opacity parameter must be between 0 and 1 and defaults to 1.
 #include "itkLabelOverlayImageFilter.h"
 
 
-int main(int, char * argv[])
+int main(int argn, char * argv[])
 {
+
+  if( argn == 1 )
+    {
+    std::cerr << "Usage: check2 input label output [opacity [useBg [bg]]]" << std::endl;
+    return 1;
+    }
+
   const int dim = 2;
   
   typedef unsigned char PType;
@@ -120,26 +148,32 @@ int main(int, char * argv[])
 
   typedef itk::ImageFileReader< IType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[2] );
+  reader->SetFileName( argv[1] );
   ReaderType::Pointer reader2 = ReaderType::New();
-  reader2->SetFileName( argv[3] );
+  reader2->SetFileName( argv[2] );
 
   typedef itk::LabelOverlayImageFilter< IType, IType, CIType> FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
   filter->SetLabelImage( reader2->GetOutput() );
-  filter->SetOpacity( atof(argv[1]) );
+  if( argn >= 5 )
+    { filter->SetOpacity( atof(argv[4]) ); }
+  if( argn >= 6 )
+    { filter->SetUseBackground( atoi(argv[5]) ); }
+  if( argn >= 7 )
+    { filter->SetBackgroundValue( atoi(argv[6]) ); }
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   typedef itk::ImageFileWriter< CIType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( argv[4] );
+  writer->SetFileName( argv[3] );
   writer->Update();
 
   return 0;
 }
+
 \end{verbatim} \normalsize
 
 
