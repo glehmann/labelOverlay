@@ -58,6 +58,9 @@ public:
     addColor( 139, 0, 139 );
     addColor( 238, 130, 238 );
     addColor( 139, 0, 0 );
+
+    m_UseBackground = false;
+    m_BackgroundValue = NumericTraits<TLabel>::Zero;
     }
 
   inline TRGBPixel operator()( const TLabel & p)
