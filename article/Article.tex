@@ -65,7 +65,11 @@ ITK have a class to colorize a label image, \doxygen{ScalarToRGBPixelFunctor},
 but this class doesn't allow to visualize the result on top of the input
 image. \verb$LabelOverlayImageFilter$ colorize a label image and put it on top
 of the input image. The user can choose the opacity of the colored label image
-with the method \verb$SetOpacity()$.
+with the method \verb$SetOpacity()$. Another class, \verb$LabelToRGBImageFilter$,
+is available to colorize the label only.
+Those two classes are particulary useful with all algorithms which produce a
+labeled image\footnote{Those classes have been developed to be used with the
+morphological watershed filter (article still in preparation).}.
 
 \section{Implementation}
 
@@ -75,14 +79,16 @@ is applied for all pixels:
 \small \begin{verbatim}
 output = ( opacity * ( colorList[ label % size ] ) ) + ( ( 1 - opacity ) * input )
 \end{verbatim} \normalsize
-The Opacity parameter must be between 0 and 1 and defaults to 1.
+The Opacity parameter must be between $0$ and $1$ and defaults to $0.5$.
 
 \section{Examples}
+
+The examples shown here are the result of a segmentation by watershed with markers.
 
 \begin{figure}[htbp]
 \begin{center}
 \subfigure[label]{\includegraphics[scale=0.5]{cthead1MF}}
-\subfigure[0.0]{\includegraphics[scale=0.5]{out-0_0}}
+\subfigure[0.0 (input)]{\includegraphics[scale=0.5]{out-0_0}}
 \subfigure[0.1]{\includegraphics[scale=0.5]{out-0_1}}
 \subfigure[0.2]{\includegraphics[scale=0.5]{out-0_2}}
 \subfigure[0.3]{\includegraphics[scale=0.5]{out-0_3}}
@@ -92,7 +98,7 @@ The Opacity parameter must be between 0 and 1 and defaults to 1.
 \subfigure[0.7]{\includegraphics[scale=0.5]{out-0_7}}
 \subfigure[0.8]{\includegraphics[scale=0.5]{out-0_8}}
 \subfigure[0.9]{\includegraphics[scale=0.5]{out-0_9}}
-\subfigure[1.0]{\includegraphics[scale=0.5]{out-1_0}}
+\subfigure[1.0 (colored labels)]{\includegraphics[scale=0.5]{out-1_0}}
 \caption{Label image and results of LabelOverlayImageFilter for different opacity values}
 \end{center}
 \end{figure}
@@ -101,9 +107,9 @@ The Opacity parameter must be between 0 and 1 and defaults to 1.
 \begin{center}
 \subfigure[input]{\includegraphics[scale=0.5]{cthead1}}
 \subfigure[labels]{\includegraphics[scale=0.5]{cthead1MF}}
-\subfigure[Opacity=0.7, UseBackground=false (default), BackgroundValue=0 (default)]{\includegraphics[scale=0.5]{out-0_7}}
-\subfigure[Opacity=0.7, UseBackground=true, BackgroundValue=0 (default)]{\includegraphics[scale=0.5]{OverlayUseBg}}
-\subfigure[Opacity=0.7, UseBackground=true, BackgroundValue=176]{\includegraphics[scale=0.5]{OverlayUseBg176}}
+\subfigure[Opacity=0.5, UseBackground=false (default), BackgroundValue=0 (default)]{\includegraphics[scale=0.5]{out-0_5}}
+\subfigure[Opacity=0.5, UseBackground=true, BackgroundValue=0 (default)]{\includegraphics[scale=0.5]{OverlayUseBg}}
+\subfigure[Opacity=0.5, UseBackground=true, BackgroundValue=176]{\includegraphics[scale=0.5]{OverlayUseBg176}}
 \caption{Result of LabelOverlayImageFilter with different parameters.}
 \end{center}
 \end{figure}
