@@ -120,7 +120,7 @@ public:
      { this->SetInput2( input ); }
 
   /** Get the label image */
-  LabelImageType * GetLabelImage()
+  const LabelImageType * GetLabelImage() const
     { return static_cast<LabelImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1))); }
 
   /** Set/Get the opacity of the colored label image. The value must be
