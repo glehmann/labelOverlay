@@ -67,10 +67,10 @@ FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
 ENDFOREACH(opacity)
 
 ADD_TEST(Overlay check2 ${CMAKE_SOURCE_DIR}/images/cthead1.png ${CMAKE_SOURCE_DIR}/images/cthead1MF.png Overlay.png)
-ADD_TEST(OverlayCompare ${IMAGE_COMPARE} Overlay.png ${CMAKE_SOURCE_DIR}/images/out-0_7.png)
-ADD_TEST(OverlayUseBg check2 ${CMAKE_SOURCE_DIR}/images/cthead1.png ${CMAKE_SOURCE_DIR}/images/cthead1MF.png OverlayUseBg.png 0.7 1)
+ADD_TEST(OverlayCompare ${IMAGE_COMPARE} Overlay.png ${CMAKE_SOURCE_DIR}/images/out-0_5.png)
+ADD_TEST(OverlayUseBg check2 ${CMAKE_SOURCE_DIR}/images/cthead1.png ${CMAKE_SOURCE_DIR}/images/cthead1MF.png OverlayUseBg.png 0.5 1)
 ADD_TEST(OverlayUseBgCompare ${IMAGE_COMPARE} OverlayUseBg.png ${CMAKE_SOURCE_DIR}/images/OverlayUseBg.png)
-ADD_TEST(OverlayUseBg176 check2 ${CMAKE_SOURCE_DIR}/images/cthead1.png ${CMAKE_SOURCE_DIR}/images/cthead1MF.png OverlayUseBg176.png 0.7 1 176)
+ADD_TEST(OverlayUseBg176 check2 ${CMAKE_SOURCE_DIR}/images/cthead1.png ${CMAKE_SOURCE_DIR}/images/cthead1MF.png OverlayUseBg176.png 0.5 1 176)
 ADD_TEST(OverlayUseBg176Compare ${IMAGE_COMPARE} OverlayUseBg176.png ${CMAKE_SOURCE_DIR}/images/OverlayUseBg176.png)
 
 ADD_TEST(Color check ${CMAKE_SOURCE_DIR}/images/cthead1-markers.png Color.png)
